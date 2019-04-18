@@ -56,7 +56,8 @@ public class UserService extends Util2 {
 
             public List<User> editRow(String userName, String login, String password) throws SQLException {
                 usersList = new ArrayList<>();
-                String sql = "UPDATE ddt_users SET user_name = '"+ userName +"', login ='"+ login +"', password = '"+ password +"'";
+                String sql = "UPDATE ddt_users SET login ='"+ login +"', password = '"+ password +"' where user_name = '" + userName +"'";
+              //  String sql = "UPDATE ddt_users SET user_name = '"+ userName +"', login ='"+ login +"', password = '"+ password +"'";
                 Connections(sql);
                 return usersList = getall();
 
