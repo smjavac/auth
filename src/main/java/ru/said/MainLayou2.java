@@ -4,23 +4,24 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import ru.said.view.UserView;
+import ru.said.service.UserService;
+
+import java.sql.SQLException;
 
 public class MainLayou2 extends VerticalLayout  {
     Button inter = new Button(" войти в систему");
     TextField user_login = new TextField("Имя пользователя");
     TextField user_password = new TextField("Пароль");
-
+    UserService userService = new UserService();
     MainLayou2() {
-        String login = user_login.getValue();
-        String password = user_password.getValue();
-        String logFromBase;
-        String passFromBase;
+
         inter.addClickListener(clickEvent -> {
-            if (true) {
-                new UserView();
-            }
+            String login = user_login.getValue();
+            String password = user_password.getValue();
+            try {
+                if (userService.getPassword(login, password)) {new UserView();}
+            } catch (SQLException e) {e.printStackTrace();}
         });
         addComponents(user_login, user_password, inter);
-
     }
 }

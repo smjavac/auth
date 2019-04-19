@@ -56,10 +56,25 @@ public class UserService extends Util2 {
 
             public List<User> editRow(String userName, String login, String password) throws SQLException {
                 usersList = new ArrayList<>();
-                String sql = "UPDATE ddt_users SET login ='"+ login +"', password = '"+ password +"' where user_name = '" + userName +"'";
-              //  String sql = "UPDATE ddt_users SET user_name = '"+ userName +"', login ='"+ login +"', password = '"+ password +"'";
+                String sql = "UPDATE ddt_users SET login ='"+ login +"'," +
+                        " password = '"+ password +"' where user_name = '" + userName +"'";
                 Connections(sql);
                 return usersList = getall();
-
             }
+
+            public boolean getPassword (String log, String pass) throws SQLException {
+               try (Connection connection = getConnection();
+                    Statement statement = connection.createStatement();
+                    ResultSet resultSet = statement.executeQuery("SELECT * from ddt_users")){
+                    while (resultSet.next()){
+                        if (pass.equals(resultSet.getString("password"))
+                                && log.equals(resultSet.getString("login"))) return true; }
+               }
+                return false;
+            }
+
+            public String hashPass(String hashpass){
+                return null;
+            }
+
 }

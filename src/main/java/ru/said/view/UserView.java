@@ -110,7 +110,7 @@ public class UserView  {
                       .withValidator(value -> value.length() > 0, "Поле не должно быть пустым")
                       .bind(User::getLogin,User::setLogin);
                     binder.forField(user_PasswordTxt)
-                      .withValidator(value -> value.length() > 0, "Поле не должно быть пустым")
+                      .withValidator(value -> value.length() > 7, "Количество символов без пробелов меньше 8 ")
                       .bind(User::getPassword,User::setPassword);
                     String userName = user_nameTxt.getValue();
                     String login = user_loginTxt.getValue();
