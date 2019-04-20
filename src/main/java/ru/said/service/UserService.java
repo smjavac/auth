@@ -3,6 +3,8 @@ package ru.said.service;
 import ru.said.Util2;
 import ru.said.bean.User;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -62,19 +64,25 @@ public class UserService extends Util2 {
                 return usersList = getall();
             }
 
-            public boolean getPassword (String log, String pass) throws SQLException {
+            public boolean  authentication (String log, String pass) throws SQLException, NoSuchAlgorithmException {
                try (Connection connection = getConnection();
                     Statement statement = connection.createStatement();
                     ResultSet resultSet = statement.executeQuery("SELECT * from ddt_users")){
                     while (resultSet.next()){
-                        if (pass.equals(resultSet.getString("password"))
-                                && log.equals(resultSet.getString("login"))) return true; }
+                        if (hashPass(pass).equals(resultSet.getString("password"))
+                                && log.equals(resultSet.getString("login"))){ return true;}
+                    }
                }
                 return false;
             }
 
-            public String hashPass(String hashpass){
-                return null;
+            public String hashPass(String hashpass) throws NoSuchAlgorithmException {
+                MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+                byte[] bytes = sha256.digest(hashpass.getBytes());
+                StringBuilder strBuilder = new StringBuilder();
+                for (byte b : bytes )
+                strBuilder.append(b);
+                return strBuilder.toString();
             }
 
-}
+        }

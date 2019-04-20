@@ -6,6 +6,7 @@ import com.vaadin.ui.VerticalLayout;
 import ru.said.view.UserView;
 import ru.said.service.UserService;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public class MainLayou2 extends VerticalLayout  {
@@ -19,8 +20,12 @@ public class MainLayou2 extends VerticalLayout  {
             String login = user_login.getValue();
             String password = user_password.getValue();
             try {
-                if (userService.getPassword(login, password)) {new UserView();}
-            } catch (SQLException e) {e.printStackTrace();}
+                if (userService.authentication(login, password)) {
+                    new UserView();
+                }
+            } catch (SQLException e) {e.printStackTrace();} catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
         });
         addComponents(user_login, user_password, inter);
     }
