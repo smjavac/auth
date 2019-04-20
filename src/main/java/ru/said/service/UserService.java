@@ -16,20 +16,20 @@ public class UserService extends Util2 {
     private Connection connection = getConnection();
     private List<User> usersList;
 
-            public void Connections (String sql) throws SQLException {
+            public void Connections (String query) throws SQLException {
                 try (Connection connection = getConnection();
                      Statement statement = connection.createStatement()) {
-                    statement.executeUpdate(sql);
+                    statement.executeUpdate(query);
                 } finally { if (connection != null) connection.close(); }
             }
 
             public List<User> getall() throws SQLException {
 
                 usersList = new ArrayList<>();
-                String sql = "SELECT * FROM  ddt_users";
+                String query = "SELECT * FROM  ddt_users";
                 try (Connection connection = getConnection();
                      Statement statement = connection.createStatement();
-                     ResultSet resultSet = statement.executeQuery(sql)){
+                     ResultSet resultSet = statement.executeQuery(query)){
                     while (resultSet.next()){
                         User user = new User();
                         user.setUser_name(resultSet.getString("user_name"));
@@ -43,24 +43,24 @@ public class UserService extends Util2 {
 
             public List<User> addRow(String userName, String login, String password) throws SQLException{
                 usersList = new ArrayList<>();
-                String sql = "INSERT INTO ddt_users (user_name, login, password) VALUES ('"+ userName +"', '"+ login +"', '"+ password +"')";
-                Connections(sql);
+                String query = "INSERT INTO ddt_users (user_name, login, password) VALUES ('"+ userName +"', '"+ login +"', '"+ password +"')";
+                Connections(query);
                 return usersList = getall();
 
             }
 
             public List<User> deleteRow(String userName) throws SQLException{
                 usersList = new ArrayList<>();
-                String sql = "DELETE from ddt_users where user_name ='"+ userName+"'";
-                Connections(sql);
+                String query = "DELETE from ddt_users where user_name ='"+ userName+"'";
+                Connections(query);
                 return usersList = getall();
             }
 
             public List<User> editRow(String userName, String login, String password) throws SQLException {
                 usersList = new ArrayList<>();
-                String sql = "UPDATE ddt_users SET login ='"+ login +"'," +
+                String query = "UPDATE ddt_users SET login ='"+ login +"'," +
                         " password = '"+ password +"' where user_name = '" + userName +"'";
-                Connections(sql);
+                Connections(query);
                 return usersList = getall();
             }
 
@@ -74,7 +74,7 @@ public class UserService extends Util2 {
                             return true;
                         }
                     }
-               }
+               }finally { if (connection != null) connection.close(); }
                 return false;
             }
 
