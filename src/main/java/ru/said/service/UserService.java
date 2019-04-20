@@ -70,7 +70,9 @@ public class UserService extends Util2 {
                     ResultSet resultSet = statement.executeQuery("SELECT * from ddt_users")){
                     while (resultSet.next()){
                         if (hashPass(pass).equals(resultSet.getString("password"))
-                                && log.equals(resultSet.getString("login"))){ return true;}
+                            && log.equals(resultSet.getString("login"))){
+                            return true;
+                        }
                     }
                }
                 return false;
@@ -84,5 +86,4 @@ public class UserService extends Util2 {
                 strBuilder.append(b);
                 return strBuilder.toString();
             }
-
-        }
+    }
