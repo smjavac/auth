@@ -66,25 +66,21 @@ public class UserView  {
 
             void initData2() {
 
-                dataProvider = new ListDataProvider<User>(usersList){
+                dataProvider = new ListDataProvider<User>(usersList)
 //                    @Override
 //                    public Object getId(User item) {
 //                        return item.getUser_name();
 //                    }
-                };
+                ;
                 grid.setDataProvider(dataProvider);
             }
 
             void initDataProvider() throws SQLException {
                 usersList = userService.getall();
                 logger.debug("SELECT * FROM ddt_users");
-                dataProvider = new ListDataProvider<User>(usersList){
-//                    @Override
-//                    public Object getId(User item) {
-//                        return item.getUser_name();
-//                    }
-                };
+                dataProvider = new ListDataProvider<User>(usersList);
                 grid.setDataProvider(dataProvider);
+                grid.setWidth("1000");
                 horizontalLayout.addComponents(add,delete,edit,search);
                 verticalLayout.addComponents(horizontalLayout,grid);
                 setContent(verticalLayout);
@@ -119,7 +115,8 @@ public class UserView  {
                     try {
                         if(!status.hasErrors()) {
                             usersList = userService.addRow(userName,login,password);
-                            logger.debug("INSERT INTO ddt_users (user_name, login, password) VALUES ('"+ userName +"', '"+ login +"', '"+ password +"')");
+                            logger.debug("INSERT INTO ddt_users (user_name, login, password)" +
+                                    " VALUES ('"+ userName +"', '"+ login +"', '"+ password +"')");
                             close();
                         }
                     } catch (SQLException e){
@@ -148,10 +145,8 @@ public class UserView  {
             void editUser() {
                 Button save = new Button("Save");
                 final VerticalLayout layout2 = new VerticalLayout();
-           //     final TextField user_nameTxt = new TextField("user_name");
                 final TextField user_loginTxt = new TextField("user_Login");
                 final TextField user_passordTxt = new TextField("user_Password");
-            //    user_nameTxt.setValue(grid.getSelectedItems().iterator().next().getUser_name());
                 user_loginTxt.setValue(grid.getSelectedItems().iterator().next().getLogin());
                 user_passordTxt.setValue(grid.getSelectedItems().iterator().next().getPassword());
                 save.addClickListener(clickEvent ->{
@@ -160,7 +155,9 @@ public class UserView  {
                     String password = user_passordTxt.getValue();
                     try {
                         usersList = userService.editRow(user_name,login,password);
-                        logger.debug("UPDATE ddt_users SET login ='"+ login +"', password = '"+ password +"' where user_name = '" + user_name +"'");
+                        logger.debug("UPDATE ddt_users SET login ='" +
+                                ""+ login +"', password = '"+ password +"" +
+                                "' where user_name = '" + user_name +"'");
                     } catch (SQLException e){
                         e.printStackTrace();
                         logger.error(e);

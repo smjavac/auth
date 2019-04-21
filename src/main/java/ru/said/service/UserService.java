@@ -74,6 +74,7 @@ public class UserService extends Util2 {
                             return true;
                         }
                     }
+
                }finally { if (connection != null) connection.close(); }
                 return false;
             }
