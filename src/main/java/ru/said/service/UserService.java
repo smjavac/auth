@@ -73,6 +73,8 @@ public class UserService extends Util2 {
                             && log.equals(resultSet.getString("login"))){
                             return true;
                         }
+                        System.out.println(hashPass(pass));
+                        System.out.println(resultSet.getString("password"));
                     }
 
                }finally { if (connection != null) connection.close(); }

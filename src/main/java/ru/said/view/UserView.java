@@ -12,6 +12,7 @@ import ru.said.bean.User;
 import ru.said.service.UserService;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +98,7 @@ public class UserView  {
                 final VerticalLayout layout2 = new VerticalLayout();
                 final TextField user_nameTxt = new TextField("user_name");
                 final TextField user_loginTxt = new TextField("user_login");
-                final TextField user_PasswordTxt = new TextField("user_password");
+                final PasswordField user_PasswordTxt = new PasswordField("user_password");
                 save.addClickListener(clickEvent -> {
                     binder.forField(user_nameTxt)
                       .withValidator(value -> value.length() > 0, "Поле не должно быть пустым")
@@ -114,12 +115,16 @@ public class UserView  {
                     BinderValidationStatus<User> status = binder.validate();
                     try {
                         if(!status.hasErrors()) {
-                            usersList = userService.addRow(userName,login,password);
+                            String password2 = userService.hashPass(password);
+                            usersList = userService.addRow(userName,login,password2);
                             logger.debug("INSERT INTO ddt_users (user_name, login, password)" +
-                                    " VALUES ('"+ userName +"', '"+ login +"', '"+ password +"')");
+                                    " VALUES ('"+ userName +"', '"+ login +"', '"+ password2 +"')");
                             close();
                         }
                     } catch (SQLException e){
+                        e.printStackTrace();
+                        logger.error(e);
+                    } catch (NoSuchAlgorithmException e){
                         e.printStackTrace();
                         logger.error(e);
                     }
@@ -154,11 +159,15 @@ public class UserView  {
                     String login = user_loginTxt.getValue();
                     String password = user_passordTxt.getValue();
                     try {
-                        usersList = userService.editRow(user_name,login,password);
+                        String password2 = userService.hashPass(password);
+                        usersList = userService.editRow(user_name,login,password2);
                         logger.debug("UPDATE ddt_users SET login ='" +
                                 ""+ login +"', password = '"+ password +"" +
                                 "' where user_name = '" + user_name +"'");
                     } catch (SQLException e){
+                        e.printStackTrace();
+                        logger.error(e);
+                    } catch (NoSuchAlgorithmException e){
                         e.printStackTrace();
                         logger.error(e);
                     }
