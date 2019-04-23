@@ -82,23 +82,26 @@ public class UserView  {
                 dataProvider = new ListDataProvider<User>(usersList);
                 grid.setDataProvider(dataProvider);
                 grid.setWidth("1000");
+//                horizontalLayout.setComponentAlignment(add, Alignment.MIDDLE_CENTER);
                 horizontalLayout.addComponents(add,delete,edit,search);
                 verticalLayout.addComponents(horizontalLayout,grid);
+//                verticalLayout.setComponentAlignment(horizontalLayout, Alignment.MIDDLE_CENTER); // для отображения содержимого в центре окна
+//                verticalLayout.setComponentAlignment(grid, Alignment.MIDDLE_CENTER);            // для отображения содержимого в центре окна
                 setContent(verticalLayout);
             }
 
             void addColums(){
-                grid.addColumn(User::getUser_name).setCaption("User_name");
-                grid.addColumn(User::getLogin).setCaption("Login");
-                grid.addColumn(User::getPassword).setCaption("Password");
+                grid.addColumn(User::getUser_name).setCaption("Имя пользователя");
+                grid.addColumn(User::getLogin).setCaption("Логин");
+                grid.addColumn(User::getPassword).setCaption("Пароль");
             }
 
             void addUser() {
-                Button save = new Button("Save");
+                Button save = new Button("Сохранить");
                 final VerticalLayout layout2 = new VerticalLayout();
-                final TextField user_nameTxt = new TextField("user_name");
-                final TextField user_loginTxt = new TextField("user_login");
-                final PasswordField user_PasswordTxt = new PasswordField("user_password");
+                final TextField user_nameTxt = new TextField("Имя пользователя");
+                final TextField user_loginTxt = new TextField("Логин");
+                final PasswordField user_PasswordTxt = new PasswordField("Пароль");
                 save.addClickListener(clickEvent -> {
                     binder.forField(user_nameTxt)
                       .withValidator(value -> value.length() > 0, "Поле не должно быть пустым")
@@ -148,10 +151,10 @@ public class UserView  {
             }
 
             void editUser() {
-                Button save = new Button("Save");
+                Button save = new Button("Сохранить");
                 final VerticalLayout layout2 = new VerticalLayout();
-                final TextField user_loginTxt = new TextField("user_Login");
-                final TextField user_passordTxt = new TextField("user_Password");
+                final TextField user_loginTxt = new TextField("Логин");
+                final TextField user_passordTxt = new TextField("Пароль");
                 user_loginTxt.setValue(grid.getSelectedItems().iterator().next().getLogin());
                 user_passordTxt.setValue(grid.getSelectedItems().iterator().next().getPassword());
                 save.addClickListener(clickEvent ->{
@@ -179,7 +182,7 @@ public class UserView  {
             }
 
             MySub() {
-                super("Users");
+                super("Пользователи");
                 center();
                 setSizeFull();
             }
