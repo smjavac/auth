@@ -9,8 +9,8 @@ import java.sql.SQLException;
 
 public class MainLayou2 extends VerticalLayout  {
     Button inter = new Button(" войти в систему");
-    TextField user_login = new TextField("Login");
-    PasswordField user_password = new PasswordField("Password");
+    TextField user_login = new TextField("Логин");
+    PasswordField user_password = new PasswordField("Пароль");
     UserService userService = new UserService();
 
     MainLayou2() {
@@ -35,6 +35,7 @@ public class MainLayou2 extends VerticalLayout  {
             user_password.clear();
 
         });
+
         addComponents(user_login, user_password, inter);
     }
 }
