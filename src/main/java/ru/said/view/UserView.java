@@ -82,8 +82,11 @@ public class UserView  {
                 dataProvider = new ListDataProvider<User>(usersList);
                 grid.setDataProvider(dataProvider);
                 grid.setWidth("1000");
+//                horizontalLayout.setComponentAlignment(add, Alignment.MIDDLE_CENTER);
                 horizontalLayout.addComponents(add,delete,edit,search);
                 verticalLayout.addComponents(horizontalLayout,grid);
+//                verticalLayout.setComponentAlignment(horizontalLayout, Alignment.MIDDLE_CENTER); // для отображения содержимого в центре окна
+//                verticalLayout.setComponentAlignment(grid, Alignment.MIDDLE_CENTER);            // для отображения содержимого в центре окна
                 setContent(verticalLayout);
             }
 

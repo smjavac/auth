@@ -12,7 +12,6 @@ public class MainLayou2 extends VerticalLayout  {
     TextField user_login = new TextField("Логин");
     PasswordField user_password = new PasswordField("Пароль");
     UserService userService = new UserService();
-
     MainLayou2() {
 
         inter.addClickListener(clickEvent -> {
@@ -37,5 +36,8 @@ public class MainLayou2 extends VerticalLayout  {
         });
 
         addComponents(user_login, user_password, inter);
+        setComponentAlignment(user_login, Alignment.MIDDLE_CENTER);
+        setComponentAlignment(user_password, Alignment.MIDDLE_CENTER);
+        setComponentAlignment(inter, Alignment.MIDDLE_CENTER);
     }
 }
