@@ -4,13 +4,17 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
+import ru.said.view.UserView;
 
 import javax.servlet.annotation.WebServlet;
 
 public class MyUI2 extends UI {
     @Override
-    protected void init(VaadinRequest vaadinRequest) {
-        setContent(new MainLayou2());
+    protected void init(VaadinRequest vaadinRequest)
+    {
+        if ( new UserView().get().isEmpty())
+            setContent(new MainLayou2());
+        else new UserView("go");
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
