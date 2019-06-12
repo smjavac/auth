@@ -12,7 +12,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserService extends Util {
+import static ru.said.Util.getConnection;
+
+public class UserService {
     private Connection connection = getConnection();
     private List<User> usersList;
 

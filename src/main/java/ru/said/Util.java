@@ -9,7 +9,11 @@ public class Util {
     static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/postgres";
     static final String USER = "postgres";
     static final String PASSWORD = "5099";
-    protected Connection getConnection() {
+
+    private Util() {
+
+    }
+    public static Connection getConnection() {
         Connection connection = null;
 
         try {
@@ -17,7 +21,7 @@ public class Util {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return connection;
     }
