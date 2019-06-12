@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Util2 {
+public class Util {
     static final String JDBC_DRIVER = "org.postgresql.Driver";
     static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/postgres";
     static final String USER = "postgres";

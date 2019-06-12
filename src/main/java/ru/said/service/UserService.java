@@ -1,6 +1,6 @@
 package ru.said.service;
 
-import ru.said.Util2;
+import ru.said.Util;
 import ru.said.bean.User;
 
 import java.security.MessageDigest;
@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserService extends Util2 {
+public class UserService extends Util {
     private Connection connection = getConnection();
     private List<User> usersList;
 
