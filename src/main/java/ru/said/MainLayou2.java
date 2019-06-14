@@ -8,22 +8,23 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public class MainLayou2 extends VerticalLayout  {
-    Button inter = new Button(" войти в систему");
-    TextField user_login = new TextField("Логин");
-    PasswordField user_password = new PasswordField("Пароль");
-    UserService userService = new UserService();
+   private Button inter = new Button(" войти в систему");
+   private TextField userLogin = new TextField("Логин");
+   private PasswordField userPassword = new PasswordField("Пароль");
+   private UserService userService = new UserService();
+
     MainLayou2() {
 
         inter.addClickListener(clickEvent -> {
-            String login = user_login.getValue();
-            String password = user_password.getValue();
+            String login = userLogin.getValue();
+            String password = userPassword.getValue();
             try {
                 if (userService.authentication(login, password)) {
                     Notification.show("",
                             "Вход выполнен",
                             Notification.Type.HUMANIZED_MESSAGE);
-                    new UserView().set(login);
-                    new UserView("go");
+                    UserView.set(login);
+                    new UserView();
                 }
                 else Notification.show("Ошибка",
                         "Вход не выполнен",
@@ -31,14 +32,14 @@ public class MainLayou2 extends VerticalLayout  {
             } catch (SQLException e) {e.printStackTrace();} catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
-            user_login.clear();
-            user_password.clear();
+            userLogin.clear();
+            userPassword.clear();
 
         });
 
-        addComponents(user_login, user_password, inter);
-        setComponentAlignment(user_login, Alignment.MIDDLE_CENTER);
-        setComponentAlignment(user_password, Alignment.MIDDLE_CENTER);
+        addComponents(userLogin, userPassword, inter);
+        setComponentAlignment(userLogin, Alignment.MIDDLE_CENTER);
+        setComponentAlignment(userPassword, Alignment.MIDDLE_CENTER);
         setComponentAlignment(inter, Alignment.MIDDLE_CENTER);
     }
 }

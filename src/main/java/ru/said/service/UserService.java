@@ -22,10 +22,10 @@ public class UserService {
                 try (Connection connection = getConnection();
                      Statement statement = connection.createStatement()) {
                     statement.executeUpdate(query);
-                } finally { if (connection != null) connection.close(); }
+                } // finally { if (connection != null) connection.close(); }
             }
 
-            public List<User> getall() throws SQLException {
+            public List<User> getAll() throws SQLException {
 
                 usersList = new ArrayList<>();
                 String query = "SELECT * FROM  ddt_users";
@@ -34,7 +34,8 @@ public class UserService {
                      ResultSet resultSet = statement.executeQuery(query)){
                     while (resultSet.next()){
                         User user = new User();
-                        user.setUser_name(resultSet.getString("user_name"));
+                        user.setUserName(resultSet.getString("user_name"));
+
                         user.setLogin(resultSet.getString("login"));
                         user.setPassword(resultSet.getString("password"));
                         usersList.add(user);
@@ -47,7 +48,7 @@ public class UserService {
                 usersList = new ArrayList<>();
                 String query = "INSERT INTO ddt_users (user_name, login, password) VALUES ('"+ userName +"', '"+ login +"', '"+ password +"')";
                 Connections(query);
-                return usersList = getall();
+                return usersList = getAll();
 
             }
 
@@ -55,7 +56,7 @@ public class UserService {
                 usersList = new ArrayList<>();
                 String query = "DELETE from ddt_users where user_name ='"+ userName+"'";
                 Connections(query);
-                return usersList = getall();
+                return usersList = getAll();
             }
 
             public List<User> editRow(String userName, String login, String password) throws SQLException {
@@ -63,7 +64,7 @@ public class UserService {
                 String query = "UPDATE ddt_users SET login ='"+ login +"'," +
                         " password = '"+ password +"' where user_name = '" + userName +"'";
                 Connections(query);
-                return usersList = getall();
+                return usersList = getAll();
             }
 
             public boolean  authentication (String log, String pass) throws SQLException, NoSuchAlgorithmException {

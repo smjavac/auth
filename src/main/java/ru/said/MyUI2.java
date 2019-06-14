@@ -12,9 +12,9 @@ public class MyUI2 extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest)
     {
-        if ( new UserView().get().isEmpty())
+        if ( UserView.get().isEmpty())
             setContent(new MainLayou2());
-        else new UserView("go");
+        else new UserView();
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

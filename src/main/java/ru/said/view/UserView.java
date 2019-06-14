@@ -49,14 +49,10 @@ public final class UserView  {
         return where.toLowerCase().contains(what.toLowerCase());
     }
     private void onNameFilterTextChange(HasValue.ValueChangeEvent<String> event) {
-        dataProvider.setFilter(User::getUser_name, s -> caseInsensitiveContains(s, event.getValue()));
+        dataProvider.setFilter(User::getUserName, s -> caseInsensitiveContains(s, event.getValue()));
     }
 
     public UserView() {
-
-    }
-
-    public UserView(String s) {
         MySub mySub1 = new MySub();
         try {
             mySub1.initDataProvider();
@@ -87,7 +83,7 @@ public final class UserView  {
         search.addValueChangeListener(this::onNameFilterTextChange);
     }
 
-    public String get() {
+    public static String get() {
         String currentUser = (String) getCurrentHttpSession().getAttribute(
                 CURRENT_USER_SESSION_ATTRIBUTE_KEY);
         if (currentUser == null) {
@@ -97,7 +93,7 @@ public final class UserView  {
         }
     }
 
-    private WrappedSession getCurrentHttpSession() {
+    private static WrappedSession getCurrentHttpSession() {
         VaadinSession s = VaadinSession.getCurrent();
         if (s == null) {
             throw new IllegalStateException(
@@ -106,7 +102,7 @@ public final class UserView  {
         return s.getSession();
     }
 
-    public void set(String currentUser) {
+    public static void set(String currentUser) {
         if (currentUser == null) {
             getCurrentHttpSession().removeAttribute(
                     CURRENT_USER_SESSION_ATTRIBUTE_KEY);
@@ -129,7 +125,7 @@ public final class UserView  {
         }
 
         void initDataProvider() throws SQLException {
-            usersList = userService.getall();
+            usersList = userService.getAll();
             logger.debug("SELECT * FROM ddt_users");
             dataProvider = new ListDataProvider<User>(usersList);
             grid.setDataProvider(dataProvider);
@@ -143,7 +139,7 @@ public final class UserView  {
         }
 
         void addColums(){
-            grid.addColumn(User::getUser_name).setCaption("Имя пользователя");
+            grid.addColumn(User::getUserName).setCaption("Имя пользователя");
             grid.addColumn(User::getLogin).setCaption("Логин");
             grid.addColumn(User::getPassword).setCaption("Пароль");
         }
@@ -151,22 +147,22 @@ public final class UserView  {
         void addUser() {
             Button save = new Button("Сохранить");
             final VerticalLayout layout2 = new VerticalLayout();
-            final TextField user_nameTxt = new TextField("Имя пользователя");
-            final TextField user_loginTxt = new TextField("Логин");
-            final PasswordField user_PasswordTxt = new PasswordField("Пароль");
+            final TextField userNameTxt = new TextField("Имя пользователя");
+            final TextField userLoginTxt = new TextField("Логин");
+            final PasswordField userPasswordTxt = new PasswordField("Пароль");
             save.addClickListener(clickEvent -> {
-                binder.forField(user_nameTxt)
+                binder.forField(userNameTxt)
                         .withValidator(value -> value.length() > 0, "Поле не должно быть пустым")
-                        .bind(User::getUser_name,User::setUser_name);
-                binder.forField(user_loginTxt)
+                        .bind(User::getUserName,User::setUserName);
+                binder.forField(userLoginTxt)
                         .withValidator(value -> value.length() > 0, "Поле не должно быть пустым")
                         .bind(User::getLogin,User::setLogin);
-                binder.forField(user_PasswordTxt)
+                binder.forField(userPasswordTxt)
                         .withValidator(value -> value.length() > 7, "Количество символов без пробелов меньше 8 ")
                         .bind(User::getPassword,User::setPassword);
-                String userName = user_nameTxt.getValue();
-                String login = user_loginTxt.getValue();
-                String password = user_PasswordTxt.getValue();
+                String userName = userNameTxt.getValue();
+                String login = userLoginTxt.getValue();
+                String password = userPasswordTxt.getValue();
                 BinderValidationStatus<User> status = binder.validate();
                 try {
                     if(!status.hasErrors()) {
@@ -185,17 +181,17 @@ public final class UserView  {
                 }
                 initData2();
             });
-            layout2.addComponents(user_nameTxt,user_loginTxt,user_PasswordTxt,save);
+            layout2.addComponents(userNameTxt,userLoginTxt,userPasswordTxt,save);
             setContent(layout2);
         }
 
 
         void deleteUser(){
-            String user_name;
+            String userName;
             try {
-                user_name = grid.getSelectionModel().getFirstSelectedItem().get().getUser_name();
-                usersList = userService.deleteRow(user_name);
-                logger.debug("DELETE from ddt_users where user_name ='"+ user_name+"'");
+                userName = grid.getSelectionModel().getFirstSelectedItem().get().getUserName();
+                usersList = userService.deleteRow(userName);
+                logger.debug("DELETE from ddt_users where user_name ='"+ userName+"'");
             } catch (SQLException e){
                 e.printStackTrace();
                 logger.error(e);
@@ -206,14 +202,14 @@ public final class UserView  {
         void editUser() {
             Button save = new Button("Сохранить");
             final VerticalLayout layout2 = new VerticalLayout();
-            final TextField user_loginTxt = new TextField("Логин");
-            final TextField user_passordTxt = new TextField("Пароль");
-            user_loginTxt.setValue(grid.getSelectedItems().iterator().next().getLogin());
-            user_passordTxt.setValue(grid.getSelectedItems().iterator().next().getPassword());
+            final TextField userLoginTxt = new TextField("Логин");
+            final TextField userPassordTxt = new TextField("Пароль");
+            userLoginTxt.setValue(grid.getSelectedItems().iterator().next().getLogin());
+            userPassordTxt.setValue(grid.getSelectedItems().iterator().next().getPassword());
             save.addClickListener(clickEvent ->{
-                String user_name = grid.getSelectionModel().getFirstSelectedItem().get().getUser_name();
-                String login = user_loginTxt.getValue();
-                String password = user_passordTxt.getValue();
+                String user_name = grid.getSelectionModel().getFirstSelectedItem().get().getUserName();
+                String login = userLoginTxt.getValue();
+                String password = userPassordTxt.getValue();
                 try {
                     String password2 = userService.hashPass(password);
                     usersList = userService.editRow(user_name,login,password2);
@@ -230,7 +226,7 @@ public final class UserView  {
                 initData2();
                 close();
             });
-            layout2.addComponents( user_loginTxt,user_passordTxt,save);
+            layout2.addComponents( userLoginTxt,userPassordTxt,save);
             setContent(layout2);
         }
 
