@@ -39,6 +39,10 @@ public final class UserView  {
     public static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = UserView.class
             .getCanonicalName();
 
+    /*
+    * добавляем логирование
+    * */
+
     private static final org.apache.log4j.Logger logger =  Logger.getLogger(UserView.class);
 
     private Boolean caseInsensitiveContains(String where, String what) {
