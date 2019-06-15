@@ -43,7 +43,7 @@ public final class UserView  {
     * добавляем логирование
     * */
 
-    private static final org.apache.log4j.Logger logger =  Logger.getLogger(UserView.class);
+    private static final org.apache.log4j.Logger LOGGER =  Logger.getLogger(UserView.class);
 
     private Boolean caseInsensitiveContains(String where, String what) {
         return where.toLowerCase().contains(what.toLowerCase());
@@ -126,7 +126,7 @@ public final class UserView  {
 
         void initDataProvider() throws SQLException {
             usersList = userService.getAll();
-            logger.debug("SELECT * FROM ddt_users");
+            LOGGER.debug("SELECT * FROM ddt_users");
             dataProvider = new ListDataProvider<User>(usersList);
             grid.setDataProvider(dataProvider);
             grid.setWidth("1000");
@@ -168,16 +168,16 @@ public final class UserView  {
                     if(!status.hasErrors()) {
                         String password2 = userService.hashPass(password);
                         usersList = userService.addRow(userName,login,password2);
-                        logger.debug("INSERT INTO ddt_users (user_name, login, password)" +
+                        LOGGER.debug("INSERT INTO ddt_users (user_name, login, password)" +
                                 " VALUES ('"+ userName +"', '"+ login +"', '"+ password2 +"')");
                         close();
                     }
                 } catch (SQLException e){
                     e.printStackTrace();
-                    logger.error(e);
+                    LOGGER.error(e);
                 } catch (NoSuchAlgorithmException e){
                     e.printStackTrace();
-                    logger.error(e);
+                    LOGGER.error(e);
                 }
                 initData2();
             });
@@ -191,10 +191,10 @@ public final class UserView  {
             try {
                 userName = grid.getSelectionModel().getFirstSelectedItem().get().getUserName();
                 usersList = userService.deleteRow(userName);
-                logger.debug("DELETE from ddt_users where user_name ='"+ userName+"'");
+                LOGGER.debug("DELETE from ddt_users where user_name ='"+ userName+"'");
             } catch (SQLException e){
                 e.printStackTrace();
-                logger.error(e);
+                LOGGER.error(e);
             }
             initData2();
         }
@@ -213,15 +213,15 @@ public final class UserView  {
                 try {
                     String password2 = userService.hashPass(password);
                     usersList = userService.editRow(user_name,login,password2);
-                    logger.debug("UPDATE ddt_users SET login ='" +
+                    LOGGER.debug("UPDATE ddt_users SET login ='" +
                             ""+ login +"', password = '"+ password +"" +
                             "' where user_name = '" + user_name +"'");
                 } catch (SQLException e){
                     e.printStackTrace();
-                    logger.error(e);
+                    LOGGER.error(e);
                 } catch (NoSuchAlgorithmException e){
                     e.printStackTrace();
-                    logger.error(e);
+                    LOGGER.error(e);
                 }
                 initData2();
                 close();

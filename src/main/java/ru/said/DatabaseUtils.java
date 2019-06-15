@@ -8,29 +8,29 @@ import java.sql.SQLException;
 import java.io.*;
 import java.util.Properties;
 
-public class Сompound {
-    private static final org.apache.log4j.Logger logger =  Logger.getLogger(Сompound.class);
+public class DatabaseUtils {
+    private static final org.apache.log4j.Logger LOGGER =  Logger.getLogger(DatabaseUtils.class);
     private static String JDBC_DRIVER;
     private static String DATABASE_URL;
     private static  String USER;
     private static  String PASSWORD;
-    private static FileInputStream fis;
+    private static FileInputStream FIS;
     private static Properties property;
-    private Сompound() {
+    private DatabaseUtils() {
 
     }
     public static Connection getConnection() {
         Connection connection = null;
         try {
-            fis = new FileInputStream("F:\\java\\IDEA\\My projects\\AUTH\\src\\main\\resources\\config.properties");
+            FIS = new FileInputStream("F:\\java\\IDEA\\My projects\\AUTH\\src\\main\\resources\\config.properties");
         }        catch (FileNotFoundException e) {
-            logger.error("ОШИБКА: Файл свойств отсуствует!");
+            LOGGER.error("ОШИБКА: Файл свойств отсуствует!");
         }
         try {
             property = new Properties();
-            property.load(fis);
+            property.load(FIS);
         }        catch (IOException e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
         try {
             JDBC_DRIVER = property.getProperty("jdbc.driver");
@@ -41,7 +41,7 @@ public class Сompound {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
         } catch (ClassNotFoundException | SQLException e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
         return connection;
     }

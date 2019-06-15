@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.said.Сompound.getConnection;
+import static ru.said.DatabaseUtils.getConnection;
 
 public class UserService {
     private Connection connection = getConnection();
