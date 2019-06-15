@@ -1,19 +1,22 @@
 package ru.said;
 
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.io.*;
 import java.util.Properties;
 
-public class Util {
+public class Сompound {
+    private static final org.apache.log4j.Logger logger =  Logger.getLogger(Сompound.class);
     private static String JDBC_DRIVER;
     private static String DATABASE_URL;
     private static  String USER;
     private static  String PASSWORD;
     private static FileInputStream fis;
     private static Properties property;
-    private Util() {
+    private Сompound() {
 
     }
     public static Connection getConnection() {
@@ -21,13 +24,13 @@ public class Util {
         try {
             fis = new FileInputStream("F:\\java\\IDEA\\My projects\\AUTH\\src\\main\\resources\\config.properties");
         }        catch (FileNotFoundException e) {
-            System.err.println("ОШИБКА: Файл свойств отсуствует!");
+            logger.error("ОШИБКА: Файл свойств отсуствует!");
         }
         try {
             property = new Properties();
             property.load(fis);
         }        catch (IOException e) {
-            System.out.println(e);
+            logger.error(e);
         }
         try {
             JDBC_DRIVER = property.getProperty("jdbc.driver");
@@ -38,7 +41,7 @@ public class Util {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e);
+            logger.error(e);
         }
         return connection;
     }

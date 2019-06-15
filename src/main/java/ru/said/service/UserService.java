@@ -1,6 +1,5 @@
 package ru.said.service;
 
-import ru.said.Util;
 import ru.said.bean.User;
 
 import java.security.MessageDigest;
@@ -12,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.said.Util.getConnection;
+import static ru.said.Сompound.getConnection;
 
 public class UserService {
     private Connection connection = getConnection();
