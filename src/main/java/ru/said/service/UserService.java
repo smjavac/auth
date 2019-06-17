@@ -14,14 +14,14 @@ import java.util.List;
 import static ru.said.DatabaseUtils.getConnection;
 
 public class UserService {
-    private Connection connection = getConnection();
+
     private List<User> usersList;
 
-            public void Connections (String query) throws SQLException {
+            public void execute(String query) throws SQLException {
                 try (Connection connection = getConnection();
                      Statement statement = connection.createStatement()) {
                     statement.executeUpdate(query);
-                } // finally { if (connection != null) connection.close(); }
+                }
             }
 
             public List<User> getAll() throws SQLException {
@@ -39,14 +39,14 @@ public class UserService {
                         user.setPassword(resultSet.getString("password"));
                         usersList.add(user);
                     }
-                } finally { if (connection !=null) connection.close(); }
+                }
                 return usersList;
             }
 
             public List<User> addRow(String userName, String login, String password) throws SQLException{
                 usersList = new ArrayList<>();
                 String query = "INSERT INTO ddt_users (user_name, login, password) VALUES ('"+ userName +"', '"+ login +"', '"+ password +"')";
-                Connections(query);
+                execute(query);
                 return usersList = getAll();
 
             }
@@ -54,7 +54,7 @@ public class UserService {
             public List<User> deleteRow(String userName) throws SQLException{
                 usersList = new ArrayList<>();
                 String query = "DELETE from ddt_users where user_name ='"+ userName+"'";
-                Connections(query);
+                execute(query);
                 return usersList = getAll();
             }
 
@@ -62,7 +62,7 @@ public class UserService {
                 usersList = new ArrayList<>();
                 String query = "UPDATE ddt_users SET login ='"+ login +"'," +
                         " password = '"+ password +"' where user_name = '" + userName +"'";
-                Connections(query);
+                execute(query);
                 return usersList = getAll();
             }
 
@@ -75,11 +75,8 @@ public class UserService {
                             && log.equals(resultSet.getString("login"))){
                             return true;
                         }
-                        System.out.println(hashPass(pass));
-                        System.out.println(resultSet.getString("password"));
                     }
-
-               }finally { if (connection != null) connection.close(); }
+               }
                 return false;
             }
 

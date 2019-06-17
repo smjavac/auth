@@ -14,24 +14,23 @@ public class DatabaseUtils {
     private static String DATABASE_URL;
     private static  String USER;
     private static  String PASSWORD;
-    private static FileInputStream FIS;
+  //  private static FileInputStream FIS;
     private static Properties property;
     private DatabaseUtils() {
 
     }
     public static Connection getConnection() {
         Connection connection = null;
-        try {
-            FIS = new FileInputStream("F:\\java\\IDEA\\My projects\\AUTH\\src\\main\\resources\\config.properties");
-        }        catch (FileNotFoundException e) {
-            LOGGER.error("ОШИБКА: Файл свойств отсуствует!");
-        }
-        try {
+        try (FileInputStream FIS = new FileInputStream("F:\\java\\IDEA\\My projects\\AUTH\\src\\main\\resources\\config.properties")
+        ){
             property = new Properties();
             property.load(FIS);
-        }        catch (IOException e) {
+        } catch (FileNotFoundException e) {
+            LOGGER.error(e);
+        } catch (IOException e) {
             LOGGER.error(e);
         }
+
         try {
             JDBC_DRIVER = property.getProperty("jdbc.driver");
             DATABASE_URL = property.getProperty("db.host");
