@@ -12,6 +12,7 @@ import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.*;
 
 import org.apache.log4j.Logger;
+import ru.said.SecurityUtils;
 import ru.said.bean.User;
 import ru.said.service.UserService;
 
@@ -23,13 +24,13 @@ import java.util.List;
 
 public final class UserView  {
 
-    Button add = new Button("Добавить");
-    Button delete = new Button("Удалить");
-    Button edit = new Button("Изменить");
+    private Button add = new Button("Добавить");
+    private Button delete = new Button("Удалить");
+    private Button edit = new Button("Изменить");
     private Binder<User> binder = new Binder<>();
     private TextField search = new TextField();
     private ListDataProvider<User> dataProvider;
-    List<User> usersList = new ArrayList<>();
+    private List<User> usersList = new ArrayList<>();
     private Grid<User> grid = new Grid<>();
     VerticalLayout verticalLayout = new VerticalLayout();
     HorizontalLayout horizontalLayout = new HorizontalLayout();
@@ -115,7 +116,7 @@ public final class UserView  {
     class MySub extends Window {
 
         void initData2() {
-            dataProvider = new ListDataProvider<User>(usersList)
+            dataProvider = new ListDataProvider<>(usersList)
 //                    @Override
 //                    public Object getId(User item) {
 //                        return item.getUser_name();
@@ -166,7 +167,7 @@ public final class UserView  {
                 BinderValidationStatus<User> status = binder.validate();
                 try {
                     if(!status.hasErrors()) {
-                        String password2 = userService.hashPass(password);
+                        String password2 = SecurityUtils.hash(password);
                         usersList = userService.addRow(userName,login,password2);
                         LOGGER.debug("INSERT INTO ddt_users (user_name, login, password)" +
                                 " VALUES ('"+ userName +"', '"+ login +"', '"+ password2 +"')");
@@ -184,7 +185,6 @@ public final class UserView  {
             layout2.addComponents(userNameTxt,userLoginTxt,userPasswordTxt,save);
             setContent(layout2);
         }
-
 
         void deleteUser(){
             String userName;
@@ -211,7 +211,7 @@ public final class UserView  {
                 String login = userLoginTxt.getValue();
                 String password = userPassordTxt.getValue();
                 try {
-                    String password2 = userService.hashPass(password);
+                    String password2 = SecurityUtils.hash(password);
                     usersList = userService.editRow(user_name,login,password2);
                     LOGGER.debug("UPDATE ddt_users SET login ='" +
                             ""+ login +"', password = '"+ password +"" +

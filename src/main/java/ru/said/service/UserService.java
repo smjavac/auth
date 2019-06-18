@@ -1,5 +1,6 @@
 package ru.said.service;
 
+import ru.said.SecurityUtils;
 import ru.said.bean.User;
 
 import java.security.MessageDigest;
@@ -15,8 +16,6 @@ import static ru.said.DatabaseUtils.getConnection;
 
 public class UserService {
 
-    private List<User> usersList;
-
             public void execute(String query) throws SQLException {
                 try (Connection connection = getConnection();
                      Statement statement = connection.createStatement()) {
@@ -26,7 +25,7 @@ public class UserService {
 
             public List<User> getAll() throws SQLException {
 
-                usersList = new ArrayList<>();
+                List<User> usersList = new ArrayList<>();
                 String query = "SELECT * FROM  ddt_users";
                 try (Connection connection = getConnection();
                      Statement statement = connection.createStatement();
@@ -34,7 +33,6 @@ public class UserService {
                     while (resultSet.next()){
                         User user = new User();
                         user.setUserName(resultSet.getString("user_name"));
-
                         user.setLogin(resultSet.getString("login"));
                         user.setPassword(resultSet.getString("password"));
                         usersList.add(user);
@@ -44,26 +42,23 @@ public class UserService {
             }
 
             public List<User> addRow(String userName, String login, String password) throws SQLException{
-                usersList = new ArrayList<>();
                 String query = "INSERT INTO ddt_users (user_name, login, password) VALUES ('"+ userName +"', '"+ login +"', '"+ password +"')";
                 execute(query);
-                return usersList = getAll();
+                return getAll();
 
             }
 
             public List<User> deleteRow(String userName) throws SQLException{
-                usersList = new ArrayList<>();
                 String query = "DELETE from ddt_users where user_name ='"+ userName+"'";
                 execute(query);
-                return usersList = getAll();
+                return getAll();
             }
 
             public List<User> editRow(String userName, String login, String password) throws SQLException {
-                usersList = new ArrayList<>();
                 String query = "UPDATE ddt_users SET login ='"+ login +"'," +
                         " password = '"+ password +"' where user_name = '" + userName +"'";
                 execute(query);
-                return usersList = getAll();
+                return getAll();
             }
 
             public boolean  authentication (String log, String pass) throws SQLException, NoSuchAlgorithmException {
@@ -71,7 +66,7 @@ public class UserService {
                     Statement statement = connection.createStatement();
                     ResultSet resultSet = statement.executeQuery("SELECT * from ddt_users")){
                     while (resultSet.next()){
-                        if (hashPass(pass).equals(resultSet.getString("password"))
+                        if (SecurityUtils.hash(pass).equals(resultSet.getString("password"))
                             && log.equals(resultSet.getString("login"))){
                             return true;
                         }
@@ -80,12 +75,4 @@ public class UserService {
                 return false;
             }
 
-            public String hashPass(String hashpass) throws NoSuchAlgorithmException {
-                MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-                byte[] bytes = sha256.digest(hashpass.getBytes());
-                StringBuilder strBuilder = new StringBuilder();
-                for (byte b : bytes )
-                strBuilder.append(b);
-                return strBuilder.toString();
-            }
     }
