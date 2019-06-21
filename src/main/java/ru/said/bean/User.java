@@ -3,6 +3,7 @@ package ru.said.bean;
 public class User {
     private String userName;
     private String login;
+    private String password;
 
     public String getUserName() {
         return userName;
@@ -28,5 +29,5 @@ public class User {
         this.password = password;
     }
 
-    private String password;
+
 }
