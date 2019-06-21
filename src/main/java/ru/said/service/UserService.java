@@ -12,15 +12,7 @@ import java.util.List;
 import static ru.said.DatabaseUtils.getConnection;
 
 public class UserService {
-
-//            public void execute(String query) throws SQLException {
-//                try (Connection connection = getConnection();
-//
-//                     Statement statement = connection.createStatement()) {
-//                    statement.executeUpdate(query);
-//                }
-//            }
-
+    
             public List<User> getAll() throws SQLException {
 
                 List<User> usersList = new ArrayList<>();
@@ -74,9 +66,7 @@ public class UserService {
                     ResultSet resultSet = statement.executeQuery("SELECT * from ddt_users")){
                     while (resultSet.next()){
                         if (SecurityUtils.hash(pass).equals(resultSet.getString("password"))
-                            && log.equals(resultSet.getString("login"))){
-                            return true;
-                        }
+                            && log.equals(resultSet.getString("login"))){ return true; }
                     }
                }
                 return false;
