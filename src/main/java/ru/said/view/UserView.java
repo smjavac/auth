@@ -3,7 +3,6 @@ package ru.said.view;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.server.WrappedSession;
 import com.vaadin.data.Binder;
 import com.vaadin.data.BinderValidationStatus;
 import com.vaadin.data.HasValue;
@@ -13,6 +12,7 @@ import org.apache.log4j.Logger;
 import ru.said.SecurityUtils;
 import ru.said.bean.User;
 import ru.said.service.UserService;
+
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,10 +32,6 @@ public final class UserView {
     HorizontalLayout horizontalLayout = new HorizontalLayout();
     UserService userService = new UserService();
     MenuBar logoutMenu = new MenuBar();
-
-    public static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = UserView.class
-            .getCanonicalName();
-
     /*
      * добавляем логирование
      * */
@@ -79,35 +75,6 @@ public final class UserView {
         });
         search.setWidth("157");
         search.addValueChangeListener(this::onNameFilterTextChange);
-    }
-
-    public static String get() {
-        String currentUser = (String) getCurrentHttpSession().getAttribute(
-                CURRENT_USER_SESSION_ATTRIBUTE_KEY);
-        if (currentUser == null) {
-            return "";
-        } else {
-            return currentUser;
-        }
-    }
-
-    private static WrappedSession getCurrentHttpSession() {
-        VaadinSession s = VaadinSession.getCurrent();
-        if (s == null) {
-            throw new IllegalStateException(
-                    "No session found for current thread");
-        }
-        return s.getSession();
-    }
-
-    public static void set(String currentUser) {
-        if (currentUser == null) {
-            getCurrentHttpSession().removeAttribute(
-                    CURRENT_USER_SESSION_ATTRIBUTE_KEY);
-        } else {
-            getCurrentHttpSession().setAttribute(
-                    CURRENT_USER_SESSION_ATTRIBUTE_KEY, currentUser);
-        }
     }
 
     class MySub extends Window {

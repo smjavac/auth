@@ -24,7 +24,7 @@ public class MainLayou2 extends VerticalLayout {
                     Notification.show("",
                             "Вход выполнен",
                             Notification.Type.HUMANIZED_MESSAGE);
-                    UserView.set(login);
+                    CurrentUser.set(login);
                     new UserView();
                 } else {
                     Notification.show("Ошибка",
