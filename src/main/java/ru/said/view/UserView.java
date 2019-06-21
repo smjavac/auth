@@ -117,7 +117,10 @@ public final class UserView  {
 
         void initData2() {
             dataProvider = new ListDataProvider<>(usersList)
-
+//                    @Override
+//                    public Object getId(User item) {
+//                        return item.getUser_name();
+//                    }
             ;
             grid.setDataProvider(dataProvider);
         }
