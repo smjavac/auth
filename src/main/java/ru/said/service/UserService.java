@@ -12,7 +12,7 @@ import java.util.List;
 import static ru.said.DatabaseUtils.getConnection;
 
 public class UserService {
-    
+
             public List<User> getAll() throws SQLException {
 
                 List<User> usersList = new ArrayList<>();
