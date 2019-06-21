@@ -2,13 +2,10 @@ package ru.said.service;
 
 import ru.said.SecurityUtils;
 import ru.said.bean.User;
-
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import static ru.said.DatabaseUtils.getConnection;
 
 public class UserService {

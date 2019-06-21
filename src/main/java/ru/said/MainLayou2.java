@@ -4,7 +4,6 @@ import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
 import ru.said.view.UserView;
 import ru.said.service.UserService;
-
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
@@ -13,7 +12,7 @@ public class MainLayou2 extends VerticalLayout {
     private TextField userLogin = new TextField("Логин");
     private PasswordField userPassword = new PasswordField("Пароль");
     private UserService userService = new UserService();
-    private static final org.apache.log4j.Logger LOGGER = Logger.getLogger(MainLayou2.class);
+    private static final Logger LOGGER = Logger.getLogger(MainLayou2.class);
 
     MainLayou2() {
 

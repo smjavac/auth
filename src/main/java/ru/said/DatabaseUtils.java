@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.Properties;
 
 public class DatabaseUtils {
-    private static final org.apache.log4j.Logger LOGGER = Logger.getLogger(DatabaseUtils.class);
+    private static final Logger LOGGER = Logger.getLogger(DatabaseUtils.class);
     private static String JDBC_DRIVER;
     private static String DATABASE_URL;
     private static String USER;

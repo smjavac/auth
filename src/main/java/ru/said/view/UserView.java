@@ -4,19 +4,15 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.server.WrappedSession;
-import com.vaadin.ui.Window;
 import com.vaadin.data.Binder;
 import com.vaadin.data.BinderValidationStatus;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.*;
-
 import org.apache.log4j.Logger;
 import ru.said.SecurityUtils;
 import ru.said.bean.User;
 import ru.said.service.UserService;
-
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -44,7 +40,7 @@ public final class UserView {
      * добавляем логирование
      * */
 
-    private static final org.apache.log4j.Logger LOGGER = Logger.getLogger(UserView.class);
+    private static final Logger LOGGER = Logger.getLogger(UserView.class);
 
     private Boolean caseInsensitiveContains(String where, String what) {
         return where.toLowerCase().contains(what.toLowerCase());
