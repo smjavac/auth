@@ -27,9 +27,11 @@ public class MainLayou2 extends VerticalLayout {
                             Notification.Type.HUMANIZED_MESSAGE);
                     UserView.set(login);
                     new UserView();
-                } else Notification.show("Ошибка",
-                        "Вход не выполнен",
-                        Notification.Type.HUMANIZED_MESSAGE);
+                } else {
+                    Notification.show("Ошибка",
+                            "Вход не выполнен",
+                            Notification.Type.HUMANIZED_MESSAGE);
+                }
             } catch (SQLException e) {
                 LOGGER.error(e);
             } catch (NoSuchAlgorithmException e) {
