@@ -21,12 +21,13 @@ public class DatabaseUtils {
     }
     public static Connection getConnection() {
         Connection connection = null;
-        try (FileInputStream FIS = new FileInputStream("D:\\java\\IDEA\\My projects\\auth\\src\\main\\resources\\config.properties")
+        try (FileInputStream FIS = new FileInputStream("\\java\\IDEA\\My projects\\auth\\src\\main\\resources\\config.properties")
         ){
             property = new Properties();
             property.load(FIS);
         } catch (FileNotFoundException e) {
             LOGGER.error(e);
+            LOGGER.error("ОШИБКА: проверь путь до файла config.properties");
         } catch (IOException e) {
             LOGGER.error(e);
         }
@@ -38,7 +39,6 @@ public class DatabaseUtils {
             PASSWORD = property.getProperty("db.password");
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
-
         } catch (ClassNotFoundException | SQLException e) {
             LOGGER.error(e);
         }
