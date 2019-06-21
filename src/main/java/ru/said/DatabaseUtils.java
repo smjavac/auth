@@ -9,20 +9,22 @@ import java.io.*;
 import java.util.Properties;
 
 public class DatabaseUtils {
-    private static final org.apache.log4j.Logger LOGGER =  Logger.getLogger(DatabaseUtils.class);
+    private static final org.apache.log4j.Logger LOGGER = Logger.getLogger(DatabaseUtils.class);
     private static String JDBC_DRIVER;
     private static String DATABASE_URL;
-    private static  String USER;
-    private static  String PASSWORD;
-  //  private static FileInputStream FIS;
+    private static String USER;
+    private static String PASSWORD;
+    //  private static FileInputStream FIS;
     private static Properties property;
+
     private DatabaseUtils() {
 
     }
+
     public static Connection getConnection() {
         Connection connection = null;
         try (FileInputStream FIS = new FileInputStream("\\java\\IDEA\\My projects\\auth\\src\\main\\resources\\config.properties")
-        ){
+        ) {
             property = new Properties();
             property.load(FIS);
         } catch (FileNotFoundException e) {

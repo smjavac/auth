@@ -10,9 +10,8 @@ import javax.servlet.annotation.WebServlet;
 
 public class MyUI2 extends UI {
     @Override
-    protected void init(VaadinRequest vaadinRequest)
-    {
-        if ( UserView.get().isEmpty())
+    protected void init(VaadinRequest vaadinRequest) {
+        if (UserView.get().isEmpty())
             setContent(new MainLayou2());
         else new UserView();
     }
