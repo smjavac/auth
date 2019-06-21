@@ -139,10 +139,10 @@ public final class UserView {
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage(),e);
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage(),e);
                 }
                 initData2();
             });
@@ -158,7 +158,7 @@ public final class UserView {
                 LOGGER.debug("DELETE from ddt_users where user_name ='" + userName + "'");
             } catch (SQLException e) {
                 e.printStackTrace();
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage(),e);
             }
             initData2();
         }
@@ -182,10 +182,10 @@ public final class UserView {
                             "' where user_name = '" + user_name + "'");
                 } catch (SQLException e) {
                     e.printStackTrace();
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage(),e);
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage(),e);
                 }
                 initData2();
                 close();

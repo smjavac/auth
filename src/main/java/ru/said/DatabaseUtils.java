@@ -14,7 +14,6 @@ public class DatabaseUtils {
     private static String DATABASE_URL;
     private static String USER;
     private static String PASSWORD;
-    //  private static FileInputStream FIS;
     private static Properties property;
 
     private DatabaseUtils() {
@@ -28,10 +27,10 @@ public class DatabaseUtils {
             property = new Properties();
             property.load(FIS);
         } catch (FileNotFoundException e) {
-            LOGGER.error(e);
-            LOGGER.error("ОШИБКА: проверь путь до файла config.properties");
+            LOGGER.error("ОШИБКА: проверь путь до файла config.properties", e);
+
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
 
         try {
@@ -42,7 +41,7 @@ public class DatabaseUtils {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
         return connection;
     }

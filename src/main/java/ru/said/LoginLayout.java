@@ -7,14 +7,14 @@ import ru.said.service.UserService;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-public class MainLayou2 extends VerticalLayout {
+public class LoginLayout extends VerticalLayout {
     private Button inter = new Button(" войти в систему");
     private TextField userLogin = new TextField("Логин");
     private PasswordField userPassword = new PasswordField("Пароль");
     private UserService userService = new UserService();
-    private static final Logger LOGGER = Logger.getLogger(MainLayou2.class);
+    private static final Logger LOGGER = Logger.getLogger(LoginLayout.class);
 
-    MainLayou2() {
+    LoginLayout() {
 
         inter.addClickListener(clickEvent -> {
             String login = userLogin.getValue();
@@ -32,9 +32,9 @@ public class MainLayou2 extends VerticalLayout {
                             Notification.Type.HUMANIZED_MESSAGE);
                 }
             } catch (SQLException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage(),e);
             } catch (NoSuchAlgorithmException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage(),e);
             }
             userLogin.clear();
             userPassword.clear();

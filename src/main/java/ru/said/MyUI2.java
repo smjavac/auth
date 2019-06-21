@@ -12,7 +12,7 @@ public class MyUI2 extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         if (CurrentUser.get().isEmpty()) {
-            setContent(new MainLayou2());
+            setContent(new LoginLayout());
         } else {
             new UserView();
         }
