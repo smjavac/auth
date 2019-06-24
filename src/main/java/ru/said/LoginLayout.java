@@ -2,8 +2,9 @@ package ru.said;
 
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
-import ru.said.view.UserView;
 import ru.said.service.UserService;
+
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
@@ -14,7 +15,7 @@ public class LoginLayout extends VerticalLayout {
     private UserService userService = new UserService();
     private static final Logger LOGGER = Logger.getLogger(LoginLayout.class);
 
-    LoginLayout() {
+    LoginLayout(LoginListener loginListener) {
 
         inter.addClickListener(clickEvent -> {
             String login = userLogin.getValue();
@@ -25,7 +26,10 @@ public class LoginLayout extends VerticalLayout {
                             "Вход выполнен",
                             Notification.Type.HUMANIZED_MESSAGE);
                     CurrentUser.set(login);
-                    new UserView();
+                 //   new UserView();
+
+                //  addComponent(new MainLayout());  ;
+                    loginListener.loginSuccessful();
                 } else {
                     Notification.show("Ошибка",
                             "Вход не выполнен",
@@ -45,5 +49,9 @@ public class LoginLayout extends VerticalLayout {
         setComponentAlignment(userLogin, Alignment.MIDDLE_CENTER);
         setComponentAlignment(userPassword, Alignment.MIDDLE_CENTER);
         setComponentAlignment(inter, Alignment.MIDDLE_CENTER);
+    }
+
+    public interface LoginListener extends Serializable {
+        void loginSuccessful();
     }
 }

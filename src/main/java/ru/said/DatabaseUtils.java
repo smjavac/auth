@@ -22,7 +22,7 @@ public class DatabaseUtils {
 
     public static Connection getConnection() {
         Connection connection = null;
-        try (FileInputStream FIS = new FileInputStream("\\java\\IDEA\\My projects\\auth\\src\\main\\resources\\config.properties")
+        try (FileInputStream FIS = new FileInputStream("D:\\java\\IDEA\\My projects\\auth\\src\\main\\resources\\config.properties")
         ) {
             property = new Properties();
             property.load(FIS);
