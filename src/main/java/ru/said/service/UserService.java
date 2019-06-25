@@ -1,11 +1,14 @@
 package ru.said.service;
 
-import ru.said.SecurityUtils;
+
 import ru.said.bean.User;
+
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 import static ru.said.DatabaseUtils.getConnection;
 
 public class UserService {
@@ -58,17 +61,24 @@ public class UserService {
     }
 
     public boolean authentication(String log, String pass) throws SQLException, NoSuchAlgorithmException {
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * from ddt_users")) {
-            while (resultSet.next()) {
-                if (SecurityUtils.hash(pass).equals(resultSet.getString("password"))
-                        && log.equals(resultSet.getString("login"))) {
-                    return true;
-                }
+        try (PreparedStatement auth = getConnection().prepareStatement("SELECT * from ddt_users where login = ?")) {
+            auth.setString(1, log);
+            ResultSet resultSet = auth.executeQuery();
+            if (resultSet.next() && hash(pass).equals(resultSet.getString("password"))) {
+                return true;
             }
         }
         return false;
+    }
+
+    public static String hash(String hashpass) throws NoSuchAlgorithmException {
+        MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+        byte[] bytes = sha256.digest(hashpass.getBytes());
+        StringBuilder strBuilder = new StringBuilder();
+        for (byte b : bytes) {
+            strBuilder.append(b);
+        }
+        return strBuilder.toString();
     }
 
 }

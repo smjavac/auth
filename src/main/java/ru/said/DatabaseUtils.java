@@ -14,30 +14,34 @@ public class DatabaseUtils {
     private static String DATABASE_URL;
     private static String USER;
     private static String PASSWORD;
-    private static Properties property;
 
-    private DatabaseUtils() {
 
-    }
-
-    public static Connection getConnection() {
-        Connection connection = null;
-        try (FileInputStream FIS = new FileInputStream("D:\\java\\IDEA\\My projects\\auth\\src\\main\\resources\\config.properties")
+    static {
+        Properties property = new Properties();
+        try (FileInputStream fis = new FileInputStream(System.getProperty("config.properties"))
         ) {
             property = new Properties();
-            property.load(FIS);
+            property.load(fis);
         } catch (FileNotFoundException e) {
             LOGGER.error("ОШИБКА: проверь путь до файла config.properties", e);
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
+        }catch (ExceptionInInitializerError e){
+            LOGGER.error("ОШИБКА: файл не существует");
         }
+        JDBC_DRIVER = property.getProperty("jdbc.driver");
+        DATABASE_URL = property.getProperty("db.host");
+        USER = property.getProperty("db.login");
+        PASSWORD = property.getProperty("db.password");
+    }
 
+    private DatabaseUtils() {
+    }
+
+    public static Connection getConnection() {
+        Connection connection = null;
         try {
-            JDBC_DRIVER = property.getProperty("jdbc.driver");
-            DATABASE_URL = property.getProperty("db.host");
-            USER = property.getProperty("db.login");
-            PASSWORD = property.getProperty("db.password");
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
