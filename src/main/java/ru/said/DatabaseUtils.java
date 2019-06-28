@@ -27,7 +27,7 @@ public class DatabaseUtils {
         }
 
         if (!new File(path).exists()) {
-            throw new IllegalArgumentException("ОШИБКА: файл \"config.properties\" не существует");
+            throw new IllegalArgumentException("ОШИБКА: файл " + path + " не существует");
         } else {
             try (FileInputStream fis = new FileInputStream(path)
             ) {
