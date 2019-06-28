@@ -1,6 +1,10 @@
 package ru.said;
 
+<<<<<<< HEAD
 import com.sun.xml.internal.ws.util.StringUtils;
+=======
+import org.apache.commons.lang3.StringUtils;
+>>>>>>> 00a8c5d038b6913bdb964fca3a8c2332b367f151
 import org.apache.log4j.Logger;
 import java.lang.Object;
 import java.sql.Connection;
@@ -19,22 +23,35 @@ public class DatabaseUtils {
 
     static {
         Properties property = new Properties();
-        try (FileInputStream fis = new FileInputStream(System.getProperty("config.properties"))
-        ) {
-            property = new Properties();
-            property.load(fis);
-        } catch (FileNotFoundException e) {
-            LOGGER.error("ОШИБКА: проверь путь до файла config.properties", e);
-
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }catch (ExceptionInInitializerError e){
-            LOGGER.error("ОШИБКА: файл не существует");
+        String key = "confi.properties";
+        if (StringUtils.isBlank(System.getProperty(key))) {
+            try {
+                throw new IllegalArgumentException();
+            } catch (IllegalArgumentException e) {
+                LOGGER.error("ОШИБКА: неверный ключ \"config.properties\"", e);
+                //   System.exit(202);
+            }
         }
-        JDBC_DRIVER = property.getProperty("jdbc.driver");
-        DATABASE_URL = property.getProperty("db.host");
-        USER = property.getProperty("db.login");
-        PASSWORD = property.getProperty("db.password");
+
+        if (!new File(System.getProperty(key)).exists()) {
+            try {
+                throw new FileNotFoundException();
+            } catch (FileNotFoundException e) {
+                LOGGER.error("ОШИБКА: файл \"config.properties\" не существует", e);
+            }
+        } else {
+
+            try (FileInputStream fis = new FileInputStream(System.getProperty("config.properties"))
+            ) {
+                property.load(fis);
+                JDBC_DRIVER = property.getProperty("jdbc.driver");
+                DATABASE_URL = property.getProperty("db.host");
+                USER = property.getProperty("db.login");
+                PASSWORD = property.getProperty("db.password");
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
     }
 
     private DatabaseUtils() {
@@ -50,10 +67,15 @@ public class DatabaseUtils {
         }
         return connection;
     }
+<<<<<<< HEAD
 //     private boolean pathTrue(String path) throws IOException {
 //        if (System.getProperty(path) != null) {
 //            return true;
 //        }
 //        throw new
 //     }
+=======
+
+
+>>>>>>> 00a8c5d038b6913bdb964fca3a8c2332b367f151
 }
