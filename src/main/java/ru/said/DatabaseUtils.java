@@ -1,7 +1,8 @@
 package ru.said;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import org.apache.log4j.Logger;
-
+import java.lang.Object;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -49,4 +50,10 @@ public class DatabaseUtils {
         }
         return connection;
     }
+//     private boolean pathTrue(String path) throws IOException {
+//        if (System.getProperty(path) != null) {
+//            return true;
+//        }
+//        throw new
+//     }
 }
