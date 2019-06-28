@@ -1,12 +1,9 @@
 package ru.said;
 
-<<<<<<< HEAD
-import com.sun.xml.internal.ws.util.StringUtils;
-=======
+
 import org.apache.commons.lang3.StringUtils;
->>>>>>> 00a8c5d038b6913bdb964fca3a8c2332b367f151
 import org.apache.log4j.Logger;
-import java.lang.Object;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,33 +20,27 @@ public class DatabaseUtils {
 
     static {
         Properties property = new Properties();
-        String key = "confi.properties";
-        if (StringUtils.isBlank(System.getProperty(key))) {
-            try {
-                throw new IllegalArgumentException();
-            } catch (IllegalArgumentException e) {
-                LOGGER.error("ОШИБКА: неверный ключ \"config.properties\"", e);
-                //   System.exit(202);
-            }
+        String key = "config.properties";
+        String path = System.getProperty(key);
+        if (StringUtils.isBlank(path)) {
+            throw new IllegalArgumentException("ОШИБКА: неверный ключ --> \"" + key + "\" ");
         }
 
-        if (!new File(System.getProperty(key)).exists()) {
-            try {
-                throw new FileNotFoundException();
-            } catch (FileNotFoundException e) {
-                LOGGER.error("ОШИБКА: файл \"config.properties\" не существует", e);
-            }
+        if (!new File(path).exists()) {
+            throw new IllegalArgumentException("ОШИБКА: файл \"config.properties\" не существует");
         } else {
-
-            try (FileInputStream fis = new FileInputStream(System.getProperty("config.properties"))
+            try (FileInputStream fis = new FileInputStream(path)
             ) {
                 property.load(fis);
                 JDBC_DRIVER = property.getProperty("jdbc.driver");
                 DATABASE_URL = property.getProperty("db.host");
                 USER = property.getProperty("db.login");
                 PASSWORD = property.getProperty("db.password");
+                Class.forName(JDBC_DRIVER);
             } catch (IOException e) {
                 LOGGER.error(e.getMessage(), e);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -60,22 +51,11 @@ public class DatabaseUtils {
     public static Connection getConnection() {
         Connection connection = null;
         try {
-            Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return connection;
     }
-<<<<<<< HEAD
-//     private boolean pathTrue(String path) throws IOException {
-//        if (System.getProperty(path) != null) {
-//            return true;
-//        }
-//        throw new
-//     }
-=======
 
-
->>>>>>> 00a8c5d038b6913bdb964fca3a8c2332b367f151
 }
