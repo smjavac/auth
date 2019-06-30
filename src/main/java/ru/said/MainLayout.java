@@ -35,7 +35,7 @@ public class MainLayout extends HorizontalLayout {
     private VerticalLayout verticalLayout = new VerticalLayout();
     private HorizontalLayout horizontalLayout = new HorizontalLayout();
     private static final Logger LOGGER = Logger.getLogger(MainLayout.class);
-    private Connection connection;
+
 
     public MainLayout() {
 
