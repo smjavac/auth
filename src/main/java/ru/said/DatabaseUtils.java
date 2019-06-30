@@ -40,7 +40,7 @@ public class DatabaseUtils {
             } catch (IOException e) {
                 LOGGER.error(e.getMessage(), e);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
     }

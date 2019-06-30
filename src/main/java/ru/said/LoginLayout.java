@@ -12,7 +12,6 @@ public class LoginLayout extends VerticalLayout {
     private Button inter = new Button(" войти в систему");
     private TextField userLogin = new TextField("Логин");
     private PasswordField userPassword = new PasswordField("Пароль");
-    private UserService userService = new UserService();
     private static final Logger LOGGER = Logger.getLogger(LoginLayout.class);
 
     LoginLayout(LoginListener loginListener) {
@@ -21,7 +20,7 @@ public class LoginLayout extends VerticalLayout {
             String login = userLogin.getValue();
             String password = userPassword.getValue();
             try {
-                if (userService.authentication(login, password)) {
+                if (UserService.authentication(login, password)) {
                     Notification.show("",
                             "Вход выполнен",
                             Notification.Type.HUMANIZED_MESSAGE);

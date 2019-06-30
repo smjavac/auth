@@ -28,7 +28,6 @@ public class MainLayout extends HorizontalLayout {
     private List<User> usersList = new ArrayList<>();
     private Grid<User> grid = new Grid<>();
     private Binder<User> binder = new Binder<>();
-    private UserService userService = new UserService();
     private MenuBar logoutMenu = new MenuBar();
     private VerticalLayout verticalLayout = new VerticalLayout();
     private HorizontalLayout horizontalLayout = new HorizontalLayout();
@@ -38,7 +37,7 @@ public class MainLayout extends HorizontalLayout {
     public MainLayout() {
 
         try {
-            usersList = userService.getAll();
+            usersList = UserService.getAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -97,7 +96,7 @@ public class MainLayout extends HorizontalLayout {
             try {
                 if (!status.hasErrors()) {
                     String password2 = UserService.hash(password);
-                    usersList = userService.addRow(userName, login, password2);
+                    usersList = UserService.addRow(userName, login, password2);
                     LOGGER.debug("INSERT INTO ddt_users (user_name, login, password)" +
                             " VALUES ('" + userName + "', '" + login + "', '" + password2 + "')");
                     //     close();
@@ -122,7 +121,7 @@ public class MainLayout extends HorizontalLayout {
         String userName;
         try {
             userName = grid.getSelectionModel().getFirstSelectedItem().get().getUserName();
-            usersList = userService.deleteRow(userName);
+            usersList = UserService.deleteRow(userName);
             LOGGER.debug("DELETE from ddt_users where user_name ='" + userName + "'");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -145,7 +144,7 @@ public class MainLayout extends HorizontalLayout {
             String password = userPassordTxt.getValue();
             try {
                 String password2 = UserService.hash(password);
-                usersList = userService.editRow(user_name, login, password2);
+                usersList = UserService.editRow(user_name, login, password2);
                 LOGGER.debug("UPDATE ddt_users SET login ='" +
                         "" + login + "', password = '" + password + "" +
                         "' where user_name = '" + user_name + "'");

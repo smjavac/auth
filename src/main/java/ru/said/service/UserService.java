@@ -13,7 +13,7 @@ import static ru.said.DatabaseUtils.getConnection;
 
 public class UserService {
 
-    public List<User> getAll() throws SQLException {
+    public static List<User> getAll() throws SQLException {
 
         List<User> usersList = new ArrayList<>();
         String query = "SELECT * FROM  ddt_users";
@@ -31,7 +31,7 @@ public class UserService {
         return usersList;
     }
 
-    public List<User> addRow(String userName, String login, String password) throws SQLException {
+    public static List<User> addRow(String userName, String login, String password) throws SQLException {
         try (PreparedStatement prepState = getConnection().prepareStatement(
                 "INSERT INTO ddt_users (user_name, login, password) VALUES (?,?,?)")) {
             prepState.setString(1, userName);
@@ -42,7 +42,7 @@ public class UserService {
         return getAll();
     }
 
-    public List<User> deleteRow(String userName) throws SQLException {
+    public static List<User> deleteRow(String userName) throws SQLException {
         try (PreparedStatement prepDelete = getConnection().prepareStatement("DELETE from ddt_users where user_name = ?")) {
             prepDelete.setString(1, userName);
             prepDelete.execute();
@@ -50,7 +50,7 @@ public class UserService {
         return getAll();
     }
 
-    public List<User> editRow(String userNameNew, String loginNew, String passwordNew) throws SQLException {
+    public static List<User> editRow(String userNameNew, String loginNew, String passwordNew) throws SQLException {
         try (PreparedStatement prepEdit = getConnection().prepareStatement("UPDATE ddt_users SET login = ?, password = ? where user_name = ?")) {
             prepEdit.setString(1, loginNew);
             prepEdit.setString(2, passwordNew);
@@ -60,7 +60,7 @@ public class UserService {
         return getAll();
     }
 
-    public boolean authentication(String log, String pass) throws SQLException, NoSuchAlgorithmException {
+    public static boolean authentication(String log, String pass) throws SQLException, NoSuchAlgorithmException {
         try (PreparedStatement auth = getConnection().prepareStatement("SELECT * from ddt_users where login = ?")) {
             auth.setString(1, log);
             ResultSet resultSet = auth.executeQuery();
