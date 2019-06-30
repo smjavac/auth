@@ -22,11 +22,12 @@ public class DatabaseUtils {
         Properties property = new Properties();
         String key = "config.properties";
         String path = System.getProperty(key);
+        File file = new File(path);
         if (StringUtils.isBlank(path)) {
             throw new IllegalArgumentException("ОШИБКА: неверный ключ --> \"" + key + "\" ");
         }
 
-        if (!new File(path).exists()) {
+        if (!file.exists() | !file.isFile()) {
             throw new IllegalArgumentException("ОШИБКА: файл " + path + " не существует");
         } else {
             try (FileInputStream fis = new FileInputStream(path)
