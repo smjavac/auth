@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 import ru.said.bean.User;
 import ru.said.service.UserService;
 
+import static ru.said.DatabaseUtils.getConnection;
+
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class MainLayout extends HorizontalLayout {
     public MainLayout() {
 
         try {
-            usersList = UserService.getAll();
+            usersList = UserService.getAll(getConnection());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,7 +98,7 @@ public class MainLayout extends HorizontalLayout {
             try {
                 if (!status.hasErrors()) {
                     String password2 = UserService.hash(password);
-                    usersList = UserService.addRow(userName, login, password2);
+                    usersList = UserService.addRow(getConnection(), userName, login, password2);
                     LOGGER.debug("INSERT INTO ddt_users (user_name, login, password)" +
                             " VALUES ('" + userName + "', '" + login + "', '" + password2 + "')");
                     //     close();
@@ -121,7 +123,7 @@ public class MainLayout extends HorizontalLayout {
         String userName;
         try {
             userName = grid.getSelectionModel().getFirstSelectedItem().get().getUserName();
-            usersList = UserService.deleteRow(userName);
+            usersList = UserService.deleteRow(getConnection(), userName);
             LOGGER.debug("DELETE from ddt_users where user_name ='" + userName + "'");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -144,7 +146,7 @@ public class MainLayout extends HorizontalLayout {
             String password = userPassordTxt.getValue();
             try {
                 String password2 = UserService.hash(password);
-                usersList = UserService.editRow(user_name, login, password2);
+                usersList = UserService.editRow(getConnection(), user_name, login, password2);
                 LOGGER.debug("UPDATE ddt_users SET login ='" +
                         "" + login + "', password = '" + password + "" +
                         "' where user_name = '" + user_name + "'");

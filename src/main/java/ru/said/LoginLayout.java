@@ -4,6 +4,8 @@ import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
 import ru.said.service.UserService;
 
+import static ru.said.DatabaseUtils.getConnection;
+
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -20,14 +22,14 @@ public class LoginLayout extends VerticalLayout {
             String login = userLogin.getValue();
             String password = userPassword.getValue();
             try {
-                if (UserService.authentication(login, password)) {
+                if (UserService.authentication(getConnection(), login, password)) {
                     Notification.show("",
                             "Вход выполнен",
                             Notification.Type.HUMANIZED_MESSAGE);
                     CurrentUser.set(login);
-                 //   new UserView();
+                    //   new UserView();
 
-                //  addComponent(new MainLayout());  ;
+                    //  addComponent(new MainLayout());  ;
                     loginListener.loginSuccessful();
                 } else {
                     Notification.show("Ошибка",
@@ -35,9 +37,9 @@ public class LoginLayout extends VerticalLayout {
                             Notification.Type.HUMANIZED_MESSAGE);
                 }
             } catch (SQLException e) {
-                LOGGER.error(e.getMessage(),e);
+                LOGGER.error(e.getMessage(), e);
             } catch (NoSuchAlgorithmException e) {
-                LOGGER.error(e.getMessage(),e);
+                LOGGER.error(e.getMessage(), e);
             }
             userLogin.clear();
             userPassword.clear();

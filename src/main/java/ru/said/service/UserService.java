@@ -9,16 +9,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.said.DatabaseUtils.getConnection;
 
 public class UserService {
 
-    public static List<User> getAll() throws SQLException {
+    public static List<User> getAll(Connection connection) throws SQLException {
 
         List<User> usersList = new ArrayList<>();
         String query = "SELECT * FROM  ddt_users";
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 User user = new User();
@@ -31,37 +29,37 @@ public class UserService {
         return usersList;
     }
 
-    public static List<User> addRow(String userName, String login, String password) throws SQLException {
-        try (PreparedStatement prepState = getConnection().prepareStatement(
+    public static List<User> addRow(Connection connection, String userName, String login, String password) throws SQLException {
+        try (PreparedStatement prepState = connection.prepareStatement(
                 "INSERT INTO ddt_users (user_name, login, password) VALUES (?,?,?)")) {
             prepState.setString(1, userName);
             prepState.setString(2, login);
             prepState.setString(3, password);
             prepState.execute();
         }
-        return getAll();
+        return getAll(connection);
     }
 
-    public static List<User> deleteRow(String userName) throws SQLException {
-        try (PreparedStatement prepDelete = getConnection().prepareStatement("DELETE from ddt_users where user_name = ?")) {
+    public static List<User> deleteRow(Connection connection, String userName) throws SQLException {
+        try (PreparedStatement prepDelete = connection.prepareStatement("DELETE from ddt_users where user_name = ?")) {
             prepDelete.setString(1, userName);
             prepDelete.execute();
         }
-        return getAll();
+        return getAll(connection);
     }
 
-    public static List<User> editRow(String userNameNew, String loginNew, String passwordNew) throws SQLException {
-        try (PreparedStatement prepEdit = getConnection().prepareStatement("UPDATE ddt_users SET login = ?, password = ? where user_name = ?")) {
+    public static List<User> editRow(Connection connection, String userNameNew, String loginNew, String passwordNew) throws SQLException {
+        try (PreparedStatement prepEdit = connection.prepareStatement("UPDATE ddt_users SET login = ?, password = ? where user_name = ?")) {
             prepEdit.setString(1, loginNew);
             prepEdit.setString(2, passwordNew);
             prepEdit.setString(3, userNameNew);
             prepEdit.execute();
         }
-        return getAll();
+        return getAll(connection);
     }
 
-    public static boolean authentication(String log, String pass) throws SQLException, NoSuchAlgorithmException {
-        try (PreparedStatement auth = getConnection().prepareStatement("SELECT * from ddt_users where login = ?")) {
+    public static boolean authentication(Connection connection, String log, String pass) throws SQLException, NoSuchAlgorithmException {
+        try (PreparedStatement auth = connection.prepareStatement("SELECT * from ddt_users where login = ?")) {
             auth.setString(1, log);
             ResultSet resultSet = auth.executeQuery();
             if (resultSet.next() && hash(pass).equals(resultSet.getString("password"))) {
