@@ -11,6 +11,7 @@ import java.util.List;
 
 
 public class UserService {
+    private UserService(){}
 
     public static List<User> getAll(Connection connection) throws SQLException {
 
