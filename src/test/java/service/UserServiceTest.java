@@ -9,6 +9,7 @@ import static org.mockito.Mockito.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserServiceTest {
 
@@ -22,6 +23,10 @@ public class UserServiceTest {
         String sql = "SELECT * FROM  ddt_users";
         when(statement.executeQuery(sql)).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(false);
-        ArrayList<User> list = UserService.getAll(connection,)
+        List<User> list = UserService.getAll(connection);
+
+       verify(resultSet).next();
+        verify(statement).close();
+        verify(resultSet).close();
     }
 }
