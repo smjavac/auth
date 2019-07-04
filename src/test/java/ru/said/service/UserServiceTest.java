@@ -29,5 +29,8 @@ public class UserServiceTest {
         List<User> userList1 = new ArrayList<>();
 
         Assert.assertEquals(userList1, userList);
+        verify(resultSet).next();//проверяем, что вызывался метод next() у resulSet
+        verify(resultSet).close();//проверяем, что resultSet закрыли после использования
+        verify(statement).close();//проверяем, что statement закрыли после использования
     }
 }
