@@ -15,6 +15,7 @@ import ru.said.service.UserService;
 import static ru.said.DatabaseUtils.getConnection;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +39,11 @@ public class MainLayout extends HorizontalLayout {
 
     public MainLayout() {
 
-        try {
-            usersList = UserService.getAll(getConnection());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        try (Connection connection = getConnection()) {
+            usersList = UserService.getAll(connection);
+        }
+        catch (SQLException e) {
+           LOGGER.error(e.getMessage(), e);
         }
         logoutMenu.addItem("Logout", FontAwesome.SIGN_OUT, new MenuBar.Command() {
 
@@ -104,10 +106,9 @@ public class MainLayout extends HorizontalLayout {
                     //     close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
                 LOGGER.error(e.getMessage(), e);
             } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
                 LOGGER.error(e.getMessage(), e);
             }
             Page.getCurrent().reload();
@@ -126,7 +127,6 @@ public class MainLayout extends HorizontalLayout {
             usersList = UserService.deleteRow(getConnection(), userName);
             LOGGER.debug("DELETE from ddt_users where user_name ='" + userName + "'");
         } catch (SQLException e) {
-            e.printStackTrace();
             LOGGER.error(e.getMessage(), e);
         }
         Page.getCurrent().reload();
@@ -151,10 +151,8 @@ public class MainLayout extends HorizontalLayout {
                         "" + login + "', password = '" + password + "" +
                         "' where user_name = '" + user_name + "'");
             } catch (SQLException e) {
-                e.printStackTrace();
                 LOGGER.error(e.getMessage(), e);
             } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
                 LOGGER.error(e.getMessage(), e);
             }
             initData2();

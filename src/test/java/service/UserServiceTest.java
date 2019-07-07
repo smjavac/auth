@@ -22,9 +22,11 @@ public class UserServiceTest {
         when(connection.createStatement()).thenReturn(statement);
         String sql = "SELECT * FROM  ddt_users";
         when(statement.executeQuery(sql)).thenReturn(resultSet);
-        when(resultSet.next()).thenReturn(false);
+        when(resultSet.next()).thenReturn(true);
+        when(resultSet.getString("user_name")).thenReturn("said");
         List<User> list = UserService.getAll(connection);
-
+        List<User> list2 = new ArrayList<>();
+        Assert.assertEquals(list2, list);
        verify(resultSet).next();
         verify(statement).close();
         verify(resultSet).close();
