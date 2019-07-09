@@ -61,7 +61,7 @@ public class UserServiceTest {
         Connection connection = mock(Connection.class);
         Statement statement = mock(Statement.class);
         ResultSet resultSet = mock(ResultSet.class);
-        User user2 = mock(User.class);
+       
         when(connection.createStatement()).thenReturn(statement);
         String sql = "SELECT * FROM  ddt_users";
         when(statement.executeQuery(sql)).thenReturn(resultSet);
