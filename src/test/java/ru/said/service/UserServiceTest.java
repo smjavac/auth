@@ -61,15 +61,21 @@ public class UserServiceTest {
         Connection connection = mock(Connection.class);
         Statement statement = mock(Statement.class);
         ResultSet resultSet = mock(ResultSet.class);
-
+        User user2 = mock(User.class);
         when(connection.createStatement()).thenReturn(statement);
         String sql = "SELECT * FROM  ddt_users";
         when(statement.executeQuery(sql)).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true, false);
+        when(resultSet.getString("user_name")).thenReturn("said");
+        when(resultSet.getString("login")).thenReturn("user");
+        when(resultSet.getString("password")).thenReturn("12345678");
 
         List<User> userListFromUserService = UserService.getAll(connection);
+        User user = userListFromUserService.get(0);
 
-        Assert.assertEquals(User.class, userListFromUserService.get(0).getClass());
+        Assert.assertEquals("said", user.getUserName());
+        Assert.assertEquals("user", user.getLogin());
+        Assert.assertEquals("12345678", user.getPassword());
 
         verify(resultSet, atLeastOnce()).next();
         verify(resultSet).close();
